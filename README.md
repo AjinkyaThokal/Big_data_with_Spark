@@ -10,7 +10,7 @@ This repository demonstrates a step-by-step data processing pipeline that enable
 We start by connecting to a MySQL database using the MySQL Connector. This connector helps us extract the necessary data from MySQL and prepares it for further processing.
 
 **Data Transformation with PySpark and Hive:**
-The extracted data is processed and transformed using PySpark, a powerful Python library for big data processing. Additionally, we leverage the capabilities of Apache Hive, a data warehousing and SQL-like query language, to further refine and structure the data.
+The extracted data is processed and transformed using PySpark, a powerful Python library for big data processing. Additionally, we leverage the capabilities of Apache Hive, a data warehousing and SQL-like query language, to further refine and structure the data and we filled "NULL" Values.
 
 **Data Storage in Parquet and ORC Formats:**
 Processed data is stored in both Parquet and ORC file formats. These columnar storage formats optimize data storage and retrieval, resulting in improved performance and reduced storage requirements.
