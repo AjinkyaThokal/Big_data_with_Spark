@@ -1,0 +1,23 @@
+import mysql.connector
+
+def get_mysql_data():
+	try:
+		dataBase = mysql.connector.connect(host ="localhost", user ="root", passwd ="root", database = "database1")
+		 
+		#preparing a cursor object
+		cursorObject = dataBase.cursor()
+		  
+		query = "SELECT * from emp"
+		cursorObject.execute(query)
+
+		myresult = cursorObject.fetchall()
+		
+		return myresult
+	
+	except:
+	
+		print("some issue in connection")
+		
+
+print(get_mysql_data())
+print("This is end.......!")
