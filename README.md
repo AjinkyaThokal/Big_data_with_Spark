@@ -24,4 +24,5 @@ Processed data is stored in both Parquet and ORC file formats. These columnar st
 # Repository Structure
 
 **Python_mysql:** In this we have written Python code to take data from MySQL Database.
+
 **spark_driver_program:** This is the final script which contains Pyspark Code.
