@@ -1,0 +1,39 @@
+from python_mysql import get_mysql_data
+
+from pyspark.sql.types import *
+import pyspark
+from pyspark.sql import SQLContext
+
+
+conf = pyspark.SparkConf()
+# conf.set('spark.app.name', "project2") # Optional configurations
+
+# init & return
+sc = pyspark.SparkContext.getOrCreate(conf=conf)
+sqlcontext = SQLContext(sc)
+
+df1 = sqlcontext.read.format("csv").option("header","true").option("delimiter", "|").load("file:///home/gopalkrishna/Abhi/empdata.log")
+
+df1.show()
+
+from_mysql = sc.parallelize(get_mysql_data())
+
+schema = StructType([StructField("eno", IntegerType(), True),StructField("ename", StringType(), True)])
+df2 = sqlcontext.createDataFrame(from_mysql,schema)
+
+df2.show()
+
+joinedDF = df1.join(broadcast(df2), df1.eno == df2.eno).drop(df2.eno)
+
+joinedDF.write.mode("overwrite").parquet("hdfs://localhost:8020/curated_data")
+
+parquetDF = sqlcontext.read.parquet("hdfs://localhost:8020/curated_data")
+
+parquetDF.show()
+
+master_df = parquetDF.na.fill("NA")
+
+master_df.show()
+
+master_df.write.mode("overwrite").partitionBy("eCity").parquet("hdfs://localhost:8020/master_data")
+master_df.write.mode("overwrite").partitionBy("eCity").csv("hdfs://localhost:8020/master_data")
